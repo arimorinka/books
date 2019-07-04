@@ -1,23 +1,4 @@
 <?php 
-/**
-* create and update db
-**/
-function books_info_insert_into_db() {
-    global $wpdb;
-    // creates books_info in database if not exists
-    $table = $wpdb->prefix . "books_info"; 
-    $charset_collate = $wpdb->get_charset_collate();
-    $sql = "CREATE TABLE IF NOT EXISTS $table (
-        `id` mediumint(9) NOT NULL AUTO_INCREMENT,
-        `post_id` text NOT NULL,
-        `isbn` text NOT NULL,
-    UNIQUE (`id`),
-    UNIQUE (`post_id`),
-    ) $charset_collate;";
-    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-    dbDelta( $sql );
-}
-
 
 /**
 * Create Custom Post type
@@ -144,9 +125,8 @@ function create_books()
 
 }
 
-
 /**
- * Add a metabox to the right side of the screen
+ * Adds a metabox to the right side of the screen
  */
 function wpt_add_book_metaboxes() {
     add_meta_box(
@@ -158,6 +138,7 @@ function wpt_add_book_metaboxes() {
         'default'
     );
 }
+
 
 /**
  * Output the HTML for the metabox.
@@ -213,12 +194,8 @@ function wpt_save_books_meta( $post_id, $post ) {
         }
     endforeach;
 
-
-    // db call
+ 
     global $wpdb;
-    $table = $wpdb->prefix . "books_info"; 
-    $charset_collate = $wpdb->get_charset_collate();
-
     // starts output buffering
     ob_start();
     if ( isset( $_POST['isbn'] ) ){
@@ -256,7 +233,6 @@ function wpt_save_books_meta( $post_id, $post ) {
                 );  
             } 
     }; 
-
 }
 add_action( 'save_post', 'wpt_save_books_meta', 1, 2 );
-
+?>

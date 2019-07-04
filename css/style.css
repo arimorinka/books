@@ -1,0 +1,9 @@
+#myTable tbody tr ,
+#myTable thead tr ,
+#myTable thead tr td ,
+#myTable tbody tr td ,
+#myTable tfoot tr ,
+#myTable tfoot tr td
+{
+    border: 1px solid #e3e3e3;
+}
