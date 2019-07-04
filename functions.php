@@ -146,7 +146,7 @@ function create_books()
 
 
 /**
- * Adds a metabox to the right side of the screen
+ * Add a metabox to the right side of the screen
  */
 function wpt_add_book_metaboxes() {
     add_meta_box(
@@ -157,5 +157,18 @@ function wpt_add_book_metaboxes() {
         'side',
         'default'
     );
+}
+
+/**
+ * Output the HTML for the metabox.
+ */
+function wpt_books_isbn() {
+    global $post;
+    // Nonce field to validate form request came from current site
+    wp_nonce_field( basename( __FILE__ ), 'book_fields' );
+    // Get the isbn data if it's already been entered
+    $isbn = get_post_meta( $post->ID, 'isbn', true );
+    // Output the field
+    echo '<input type="text" name="isbn" value="' . esc_textarea( $isbn )  . '" class="widefat">';
 }
 
