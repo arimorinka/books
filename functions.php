@@ -213,6 +213,50 @@ function wpt_save_books_meta( $post_id, $post ) {
         }
     endforeach;
 
+
+    // db call
+    global $wpdb;
+    $table = $wpdb->prefix . "books_info"; 
+    $charset_collate = $wpdb->get_charset_collate();
+
+    // starts output buffering
+    ob_start();
+    if ( isset( $_POST['isbn'] ) ){
+        $table = $wpdb->prefix."books_info";
+        $post_id = get_the_ID();
+        $isbn = strip_tags($_POST["isbn"], "");
+
+
+        // search query from db
+        $exist_row = $wpdb->get_var(
+                $wpdb->prepare(
+                    "SELECT post_id FROM " . $wpdb->prefix . "books_info
+                    WHERE post_id = %d",
+                    $post_id
+                )
+            );
+            // update db if record exist
+            if ( $exist_row == $post_id ) {
+               $wpdb->update( 
+                    $table, 
+                    array( 
+                        'post_id' => $post_id,
+                        'isbn' => $isbn
+                    ),
+                    array( 'post_id' => $post_id )
+                );
+            // insert into db if record not exist
+            }else{
+              $wpdb->insert( 
+                    $table, 
+                    array( 
+                        'post_id' => $post_id,
+                        'isbn' => $isbn
+                    )
+                );  
+            } 
+    }; 
+
 }
 add_action( 'save_post', 'wpt_save_books_meta', 1, 2 );
 
