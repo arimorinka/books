@@ -143,3 +143,19 @@ function create_books()
     } 
 
 }
+
+
+/**
+ * Adds a metabox to the right side of the screen
+ */
+function wpt_add_book_metaboxes() {
+    add_meta_box(
+        'wpt_books_isbn',
+        'book isbn',
+        'wpt_books_isbn',
+        'books',
+        'side',
+        'default'
+    );
+}
+
